@@ -1,0 +1,6 @@
+logs/*
+!.gitkeep
+.tmp
+.DS_Store
+.idea
+Config/Memcache.php
