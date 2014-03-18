@@ -18,34 +18,35 @@
     <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs">Back to Server Slabs</a>
   </span>
 </div>
-<div class="container corner full-size padding">
-<?php
-$notFirst = false;
-
-# Items
-foreach ($items as $key => $data) {
-    # Checking if first item
-    if ($notFirst) {
-      echo '<hr/>';
-    }
-?>
-  <a class="green item" style="" onclick="javascript:executeHideShow('console', 'hide', true);javascript:executeCommand('container', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=get&amp;request_server=<?php echo $_GET['server']; ?>');"><?php echo ((strlen($key) > 70) ? substr($key, 0, 70) . '[..]' : $key); ?></a>
-  <span class="right" style="clear:right;">
-    <strong>Size</strong> : <?php echo Library_Data_Analysis::byteResize($data[0]); ?>Bytes,
-    <strong>Expiration</strong> :
-<?php
-    // Infinite expiration
-    if ($data[1] == $infinite) {
-      echo '&#8734;';
-    } else {
-      // Timestamp expiration
-      echo Library_Data_Analysis::uptime($data[1] - time());
-    }
-?>
-  </span>
-<?php
-    # First item done
-    $notFirst = true;
-}
-?>
-</div>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Size</th>
+            <th>Expiration</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($items as $key => $data): ?>
+        <tr>
+            <td>
+                <a class="green item" style="" onclick="javascript:executeHideShow('console', 'hide', true);javascript:executeCommand('container', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=get&amp;request_server=<?php echo $_GET['server']; ?>');"><?php echo ((strlen($key) > 70) ? substr($key, 0, 70) . '[..]' : $key); ?></a>
+            </td>
+            <td><?php echo Library_Data_Analysis::byteResize($data[0]); ?>Bytes</td>
+            <td>
+                <?php
+                    if ($data[1] == $infinite) :
+                      echo '&#8734;';
+                    else :
+                        echo Library_Data_Analysis::uptime($data[1] - time());
+                    endif;
+                ?>
+            </td>
+            <td>
+                <a onclick="javascript:executeCommand('console', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=delete&amp;request_server=<?php echo $_GET['server']; ?>'); javascript:location.reload();">Delete Key</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
