@@ -34,7 +34,7 @@
         <tr>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=slab_index">Index</a></th>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=chunk_size">Chunk Size</a></th>
-            <th>Used Chunks</th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks">Used Chunks</a></th>
             <th>% of Used Chunks</th>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks">Total Chunks</a></th>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages">Total Pages</a></th>
