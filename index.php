@@ -27,9 +27,6 @@ header('Cache-Control: no-cache, must-revalidate');
 # Require
 require_once 'Library/Loader.php';
 
-# Date timezone
-date_default_timezone_set('Europe/Paris');
-
 # Loading ini file
 $_ini = Library_Configuration_Loader::singleton();
 
