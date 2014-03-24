@@ -33,12 +33,12 @@
     <thead>
         <tr>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=slab_index">Index</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=chunk_size">Chunk Size</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks">Used Chunks</a></th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=chunk_size" title="The amount of space each chunk uses. One item will use one chunk of the appropriate size.">Chunk Size</a></th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks" title="How many chunks have been allocated to items.">Used Chunks</a></th>
             <th>% of Used Chunks</th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks">Total Chunks</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages">Total Pages</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_malloced">Used</a></th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks" title="Total number of chunks allocated to the slab class.">Total Chunks</a></th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages" title="Total number of pages allocated to the slab class.">Total Pages</a></th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_malloced" title="Total amount of memory allocated to slab pages.">Used</a></th>
             <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_wasted">Wasted</a></th>
             <th>Hits</th>
             <th>Evicted</th>
@@ -75,10 +75,10 @@ foreach ($slabs as $id => $slab) :
             <td><?php echo Library_Data_Analysis::uptime($slab['items:evicted_time']); ?></td>
             <td><?php echo $slab['items:outofmemory']; ?></td>
             <td><?php echo $slab['items:tailrepairs']; ?></td>
-            <?php else: ?>
-            <td colspan="4">Slab is allocated but empty</td>
-            <?php endif; ?>
             <td><a href="?server=<?php echo $_GET['server']; ?>&amp;show=items&amp;slab=<?php echo $id; ?>">Items</a></td>
+            <?php else: ?>
+            <td colspan="5">Slab is allocated but empty</td>
+            <?php endif; ?>
        </tr>
 <?php
     endif;
