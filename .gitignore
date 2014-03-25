@@ -4,3 +4,6 @@ logs/*
 .DS_Store
 .idea
 Config/Memcache.php
+.vagrant/*
+Vagrantfile
+puphpet/*
