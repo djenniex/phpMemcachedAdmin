@@ -232,12 +232,14 @@ class Library_Data_Analysis
         $slabs['used_slabs'] = 0;
         $slabs['total_wasted'] = 0;
 
+
         # Request Rate par Slabs
         foreach($slabs as $id => $slab)
         {
             # Check if it's a Slab
-            if(is_numeric($id))
-            {
+            if(is_numeric($id)
+              && is_array($slab)
+            ){
                 # Check if Slab is used
                 if($slab['used_chunks'] > 0)
                 {
@@ -316,7 +318,7 @@ class Library_Data_Analysis
     public static function valueResize($value)
     {
         # Unit list
-        $units = array('', 'K', 'M', 'G', 'T');
+        $units = array('', 'K', 'M', 'B', 'T');
 
         # Resizing
         foreach($units as $unit)

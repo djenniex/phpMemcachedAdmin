@@ -120,9 +120,9 @@ class Library_HTML_Components
      *
      * @return String
      */
-    public static function apiList($iniAPI = '', $id)
+    public static function apiList($iniAPI = '', $id, $classes = null)
     {
-        return '<select id="' . $id . '" name="' . $id . '">
+        return '<select id="' . $id . '" name="' . $id . '" class="' . $classes . '">
                 <option value="Server" ' . self::selected('Server', $iniAPI) . '>Server API</option>
                 <option value="Memcache" ' . self::selected('Memcache', $iniAPI) . '>Memcache API</option>
                 <option value="Memcached" ' . self::selected('Memcached', $iniAPI) . '>Memcached API</option>

@@ -1,7 +1,15 @@
-            <div class="sub-header corner full-size padding" style="float:left; text-align:center; margin-top:10px;">
-                <a href="https://github.com/codeb2cc/phpMemcachedAdmin" target="_blank">Fork phpMemcachedAdmin on Github</a> -
-                <a href="http://memcached.org/" target="_blank">Memcached.org</a>
-            </div>
-        </div>
-    </body>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">
+          <a href="https://github.com/djenniex/phpMemcachedAdmin" target="_blank">Fork phpMemcachedAdmin on Github</a> -
+          <a href="http://memcached.org/" target="_blank">Memcached.org</a>
+        </p>
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Public/Scripts/Script.js"></script>
+  </body>
 </html>

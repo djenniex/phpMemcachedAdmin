@@ -1,199 +1,219 @@
-   <div style="float:left;">
-   <div class="size-0" style="float:left;">
-
-        <div class="sub-header corner padding">Commands <span class="green">Configuration</span></div>
-        <div class="container corner padding" style="padding-right:14px;">
-            <form method="post" action="configure.php?request_write=commands">
-            <div class="line">
-                Memcached commands API used by phpMemcacheAdmin<br/>
-                <a class="green" href="http://pecl.php.net/package/memcache">PECL Memcache</a> was 
-                <?php echo (class_exists('Memcache', false)) ? '' : ' not '; ?> found on this server
-                <br/>
-                <a class="green" href="http://pecl.php.net/package/memcached">PECL Memcached</a> was 
-                <?php echo (class_exists('Memcached', false)) ? '' : ' not '; ?> found on this server
-                <br/>
-                <hr/>
-            </div>
-            <div class="line">
-                <span class="left">Stats</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('stats_api'), 'stats_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Slabs</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('slabs_api'), 'slabs_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Items</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('items_api'), 'items_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Get</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('get_api'), 'get_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Set</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('set_api'), 'set_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Delete</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('delete_api'), 'delete_api'); ?></span>
-            </div>
-            <div class="line">
-                <span class="left">Flush All</span>
-                <span class="right"><?php echo Library_HTML_Components::apiList($_ini->get('flush_all_api'), 'flush_all_api'); ?></span>
-            </div>
-            <div class="line" style="text-align:center;">
-                <hr/>
-                <input class="list" type="submit" value="Save API Configuration"/>
-            </div>
-            </form>
+<div class="row">
+  <section class="col-md-6">
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Commands Configuration</h3>
         </div>
-
-        <div class="sub-header corner padding">Live Stats <span class="green">Configuration</span></div>
-        <div class="container corner padding" style="padding-right:14px;">
-            <form method="post" action="configure.php?request_write=live_stats">
-            <div class="line">
-                Alert &amp; refresh rate for Live Stats<br/>
-                <hr/>
+        <div class="panel-body">
+          <p>Memcached commands API used by phpMemcacheAdmin</p>
+          <p>
+            <a class="green" href="http://pecl.php.net/package/memcache">PECL Memcache</a> was
+            <?php echo (class_exists('Memcache', false)) ? '' : ' not '; ?> found on this server
+          </p>
+          <p>
+            <a class="green" href="http://pecl.php.net/package/memcached">PECL Memcached</a> was
+            <?php echo (class_exists('Memcached', false)) ? '' : ' not '; ?> found on this server
+          </p>
+          <hr/>
+          <form class="form-horizontal" role="form" method="post" action="configure.php?request_write=commands">
+            <div class="form-group">
+              <label for="stats_api" class="col-sm-2 control-label">Stats</label>
+              <div class="col-sm-10">
+                <?php echo Library_HTML_Components::apiList($_ini->get('stats_api'), 'stats_api', 'form-control'); ?>
+              </div>
             </div>
-            <div class="line">
-                <span class="left">Refresh Rate in sec</span>
-                <span class="right"><input type="text" name="refresh_rate" value="<?php echo $_ini->get('refresh_rate'); ?>"/></span>
+            <div class="form-group">
+                <label for="slabs_api" class="col-sm-2 control-label">Slabs</label>
+                <div class="col-sm-10">
+                  <?php echo Library_HTML_Components::apiList($_ini->get('slabs_api'), 'slabs_api', 'form-control'); ?>
+                </div>
             </div>
-            <div class="line">
-                <span class="left">Memory Alert</span>
-                <span class="right"><input type="text" name="memory_alert" value="<?php echo $_ini->get('memory_alert'); ?>"/></span>
+            <div class="form-group">
+                <label for="items_api" class="col-sm-2 control-label">Items</label>
+                <div class="col-sm-10"><?php echo Library_HTML_Components::apiList($_ini->get('items_api'), 'items_api', 'form-control'); ?></div>
             </div>
-            <div class="line">
-                <span class="left">Hit Rate Alert</span>
-                <span class="right"><input type="text" name="hit_rate_alert" value="<?php echo $_ini->get('hit_rate_alert'); ?>"/></span>
+            <div class="form-group">
+                <label for="get_api" class="col-sm-2 control-label">Get</label>
+                <div class="col-sm-10"><?php echo Library_HTML_Components::apiList($_ini->get('get_api'), 'get_api', 'form-control'); ?></div>
             </div>
-            <div class="line">
-                <span class="left">Eviction Alert</span>
-                <span class="right"><input type="text" name="eviction_alert" value="<?php echo $_ini->get('eviction_alert'); ?>"/></span>
+            <div class="form-group">
+                <label for="set_api" class="col-sm-2 control-label">Set</label>
+                <div class="col-sm-10"><?php echo Library_HTML_Components::apiList($_ini->get('set_api'), 'set_api', 'form-control'); ?></div>
             </div>
-            <div class="line">
-                <span class="left">Temp Path</span>
-                <span class="right"><input type="text" name="file_path" value="<?php echo $_ini->get('file_path'); ?>"/></span>
+            <div class="form-group">
+                <label for="delete_api" class="col-sm-2 control-label">Delete</label>
+                <div class="col-sm-10"><?php echo Library_HTML_Components::apiList($_ini->get('delete_api'), 'delete_api', 'form-control'); ?></div>
             </div>
-            <div class="line" style="text-align:center;">
-                <hr/>
-                <input class="list" type="submit" value="Save Live Configuration"/>
+            <div class="form-group">
+                <label for="flush_all_api" class="col-sm-2 control-label">Flush All</label>
+                <div class="col-sm-10"><?php echo Library_HTML_Components::apiList($_ini->get('flush_all_api'), 'flush_all_api', 'form-control'); ?></div>
             </div>
-            </form>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save API Configuration</button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
+    </section>
 
-        <div class="sub-header corner padding">Miscellaneous <span class="green">Configuration</span></div>
-        <div class="container corner padding" style="padding-right:14px;">
-            <form method="post" action="configure.php?request_write=miscellaneous">
-            <div class="line">
-                Server connection timeout &amp; miscellaneous<br/>
-                <hr/>
-            </div>
-            <div class="line">
-                <span class="left">Timeout in sec</span>
-                <span class="right"><input type="text" name="connection_timeout" value="<?php echo $_ini->get('connection_timeout'); ?>"/></span>
-            </div>
-            <div class="line">
-                <span class="left">Max Items</span>
-                <span class="right"><input type="text" name="max_item_dump" value="<?php echo $_ini->get('max_item_dump'); ?>"/></span>
-            </div>
-            <div class="line" style="text-align:center;">
-                <hr/>
-                <input class="list" type="submit" value="Save API Configuration"/>
-            </div>
-            </form>
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Live Stats Configuration</h3>
         </div>
-
-    </div>
-    <div class="size-0" style="float:left;padding-left:9px;">
-        <div class="sub-header corner padding">Server <span class="green">List</span></div>
-        <div class="container corner padding" style="padding-right:14px;">
-            <form method="post" action="configure.php?request_write=servers">
-            <div class="line">
-                Servers list used by phpMemcacheAdmin<br/><br/>
-                The server name will be filled by default with hostname:port
+        <div class="panel-body">
+          <p>Alert &amp; refresh rate for Live Stats</p>
+          <hr>
+          <form class="form-horizontal" role="form" method="post" action="configure.php?request_write=live_stats">
+            <div class="form-group">
+                <label for="refresh_rate" class="col-sm-2 control-label">Refresh Rate in sec</label>
+                <div class="col-sm-10">
+                  <input type="text" name="refresh_rate" value="<?php echo $_ini->get('refresh_rate'); ?>" class="form-control" />
+                </div>
             </div>
-            <div id="server_form">
-<?php
-            # Initializing variables
-            $server_id = 0;
-            $cluster_id = 0;
 
-            # Looking into each cluster
-            foreach($_ini->get('servers') as $cluster => $servers)
-            {
-                $cluster_id++; ?>
+            <div class="form-group">
+                <label for="memory_alert" class="col-sm-2 control-label">Memory Alert</label>
+                <div class="col-sm-10">
+                  <input type="text" name="memory_alert" value="<?php echo $_ini->get('memory_alert'); ?>" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hit_rate_alert" class="col-sm-2 control-label">Hit Rate Alert</label>
+                <div class="col-sm-10">
+                  <input type="text" name="hit_rate_alert" value="<?php echo $_ini->get('hit_rate_alert'); ?>" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="eviction_alert" class="col-sm-2 control-label">Eviction Alert</label>
+                <div class="col-sm-10">
+                  <input type="text" name="eviction_alert" value="<?php echo $_ini->get('eviction_alert'); ?>" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="file_path" class="col-sm-2 control-label">Temp Path</label>
+                <div class="col-sm-10">
+                  <input type="text" name="file_path" value="<?php echo $_ini->get('file_path'); ?>" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save Live Configuration</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Miscellaneous Configuration</h3>
+        </div>
+        <div class="panel-body">
+          <p>Server connection timeout &amp; miscellaneous</p>
+          <hr/>
+          <form class="form-horizontal" role="form" method="post" action="configure.php?request_write=miscellaneous">
+            <div class="form-group">
+                <label for="connection_timeout" class="col-sm-2 control-label">Timeout in sec</label>
+                <div class="col-sm-10">
+                <input type="text" name="connection_timeout" value="<?php echo $_ini->get('connection_timeout'); ?>" class="form-control"/></div>
+            </div>
+            <div class="form-group">
+                <label for="max_item_dump" class="col-sm-2 control-label">Max Items</label>
+                <div class="col-sm-10">
+                <input type="text" name="max_item_dump" value="<?php echo $_ini->get('max_item_dump'); ?>" class="form-control" /></div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save API Configuration</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Server List</h3>
+      </div>
+      <div class="panel-body">
+        <p>Servers list used by phpMemcacheAdmin</p>
+        <p>The server name will be filled by default with hostname:port</p>
+        <hr/>
+        <form class="form-horizontal" role="form" method="post" action="configure.php?request_write=servers">
+          <div id="server_form">
+            <?php
+                # Initializing variables
+                $server_id = 0;
+                $cluster_id = 0;
+
+                # Looking into each cluster
+                foreach ($_ini->get('servers') as $cluster => $servers) {
+                    $cluster_id++;
+            ?>
             <div id="cluster_<?php echo $cluster_id; ?>">
-                <hr/>
-                <strong>Cluster <input type="text" style="width:200px;" name="cluster[<?php echo $cluster_id; ?>]" value="<?php echo $cluster; ?>"/></strong>
-                <div style="margin-left:30px;margin-top:3px;">
-                    <div style="width:150px;float:left;">Name (Optionnal)</div>
-                    <div style="width:150px;float:left;margin-left:7px;">IP/Hostname</div>
-                    <div style="width:50px;float:left;margin-left:7px;">Port</div>
+              <strong>Cluster <input type="text" class="form-control" name="cluster[<?php echo $cluster_id; ?>]" value="<?php echo $cluster; ?>"/></strong>
+              <div class="row">
+                  <div class="col-md-4">Name (Optionnal)</div>
+                  <div class="col-md-4">IP/Hostname</div>
+                  <div class="col-md-2">Port</div>
+              </div>
+              <?php
+                foreach ($servers as $name => $server) :
+                  $server_id++;
+              ?>
+              <div class="row" id="server_<?php echo $server_id; ?>">
+                <div class="col-xs-4">
+                  <input type="text" class="form-control" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][name]" value="<?php echo $name; ?>" id="name_<?php echo $server_id; ?>" onchange="nameOnChange(<?php echo $server_id; ?>)"/>
                 </div>
-<?php           # Adding input for each server
-                foreach($servers as $name => $server)
-                {
-                    $server_id++; ?>
-                <div id="server_<?php echo $server_id; ?>">
-                    <div style="margin-left:30px;margin-top:3px;">
-                        <input type="text" style="width:150px;" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][name]" 
-                               value="<?php echo $name; ?>" 
-                               id="name_<?php echo $server_id; ?>" 
-                               onchange="nameOnChange(<?php echo $server_id; ?>)"/>
-                        <input type="text" style="width:150px;" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][hostname]" 
-                               value="<?php echo $server['hostname']; ?>" 
-                               id="host_<?php echo $server_id; ?>" 
-                        <?php # Custom name
-                        if ($name == $server['hostname'] . ':' . $server['port']) { ?>
-                               onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" 
-                               onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)" 
-                        <?php
-                        } ?>
-                               onfocus="hostOnFocus(this)" 
-                               onblur="hostOnBlur(this)"/>
-                        <input type="text" style="width:50px;" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][port]" 
-                               value="<?php echo $server['port']; ?>" 
-                               id="port_<?php echo $server_id; ?>" 
-                        <?php # Custom name
-                        if ($name == $server['hostname'] . ':' . $server['port']) { ?>
-                               onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" 
-                               onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)" 
-                        <?php
-                        } ?>
-                               onfocus="portOnFocus(this)" 
-                               onblur="portOnBlur(this)"/>
-                        <a class="list button" style="padding:1px 2px;" href="#" onclick="deleteServerOrCluster('server_<?php echo $server_id; ?>')">Delete</a>
-                    </div>
+                <div class="col-xs-4">
+                <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][hostname]" value="<?php echo $server['hostname']; ?>" id="host_<?php echo $server_id; ?>"
+                  <?php # Custom name
+                  if ($name == $server['hostname'] . ':' . $server['port']) { ?>
+                    onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)"
+                  <?php } ?>onfocus="hostOnFocus(this)" onblur="hostOnBlur(this)"/>
                 </div>
-<?php           } ?>
-                <div id="cluster_<?php echo $cluster_id; ?>_commands" style="margin-left:40px;margin-top:6px;">
-                    <a class="list button" href="javascript:addServer(<?php echo $cluster_id; ?>)">Add New Server to Cluster</a> 
-                    <a class="list" style="padding:1px 2px;-moz-border-radius:3px;-webkit-border-radius:3px;" href="#" 
-                       onclick="deleteServerOrCluster('cluster_<?php echo $cluster_id; ?>')">Delete Cluster</a>
+                <div class="col-xs-2">
+                <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][port]" value="<?php echo $server['port']; ?>" id="port_<?php echo $server_id; ?>"
+                  <?php # Custom name
+                  if ($name == $server['hostname'] . ':' . $server['port']) { ?>
+                    onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)"
+                  <?php } ?> onfocus="portOnFocus(this)" onblur="portOnBlur(this)"/>
                 </div>
-                <br/>
+                <a class="btn btn-danger" href="#" onclick="deleteServerOrCluster('server_<?php echo $server_id; ?>')">Delete</a>
+              </div>
+              <?php endforeach; ?>
+              <div class="row" id="cluster_<?php echo $cluster_id; ?>_commands">
+                <a href="javascript:addServer(<?php echo $cluster_id; ?>)" class="btn btn-default" role="button">Add New Server to Cluster</a>
+                <a class="btn btn-danger" role="button" href="#" onclick="deleteServerOrCluster('cluster_<?php echo $cluster_id; ?>')">Delete Cluster</a>
+              </div>
             </div>
-<?php       } ?>
+            <?php } ?>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <a href="javascript:addCluster()" class="btn btn-default" role="button">Add New Cluster</a>
+              <button type="submit" class="btn btn-success">Save Servers Configuration</button>
             </div>
-            <div class="line">
-                <hr/>
-                <a class="list button" href="javascript:addCluster()">Add New Cluster</a>
-                <input class="list" type="submit" value="Save Servers Configuration"/>
-            </div>
-            </form>
-        </div>
+          </div>
+        </form>
         <script type="text/javascript">
             server_id = <?php echo $server_id; ?>;
             cluster_id = <?php echo $cluster_id; ?>;
         </script>
-
-        <div class="container corner padding" style="margin-top:10px;">
-            <div class="line">
-                For more information about configuring phpMemcachedAdmin, see installation guide
-                <a href="http://code.google.com/p/phpmemcacheadmin/wiki/InstallationGuide" target="_blank"><span class="green">here</span></a>
-            </div>
-        </div>
+      </div>
+      <div class="panel-footer">
+        For more information about configuring phpMemcachedAdmin, see installation guide
+        <a href="http://code.google.com/p/phpmemcacheadmin/wiki/InstallationGuide" target="_blank">here</a>
+      </div>
     </div>
-    </div>
+  </section>
+</div>

@@ -7,3 +7,4 @@ Config/Memcache.php
 .vagrant/*
 Vagrantfile
 puphpet/*
+Temp/*
