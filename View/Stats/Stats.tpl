@@ -1,9 +1,55 @@
+<?php
+  # Fixing issue 163, some results from stats slabs mem_requested are buggy @FIXME
+  if($slabs['total_malloced'] > $stats['limit_maxbytes']) {
+      $slabs['total_wasted'] = $stats['limit_maxbytes'] - ($slabs['total_malloced'] - $slabs['total_wasted']);
+      $slabs['total_malloced'] = $stats['limit_maxbytes'];
+  }
+
+  # Making cache size stats
+  $wasted_percent = sprintf('%.1f', $slabs['total_wasted'] / $stats['limit_maxbytes'] * 100);
+  $used_percent = sprintf('%.1f', ($slabs['total_malloced'] - $slabs['total_wasted']) / $stats['limit_maxbytes'] * 100);
+  $free_percent = sprintf('%.1f', ($stats['limit_maxbytes'] - $slabs['total_malloced']) / $stats['limit_maxbytes'] * 100);
+?>
 <section class="row">
   <section class="col-md-3">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Get Stats</h3>
+        <h3 class="panel-title">Cache Size</h3>
       </div>
+      <img class="img-responsive" src="http://chart.apis.google.com/chart?chf=bg,s,ebebeb&amp;chs=281x225&amp;cht=p&amp;chco=b5463f|2a707b|ffffff&amp;chd=t:<?php echo $wasted_percent; ?>,<?php echo $used_percent; ?>,<?php echo $free_percent; ?>&amp;chdl=Wasted%20<?php echo $wasted_percent; ?>%|Used%20<?php echo $used_percent; ?>%|Free%20<?php echo $free_percent; ?>%&amp;chdlp=b" alt="Cache Size">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="pull-right">
+            <?php echo Library_Data_Analysis::byteResize($slabs['total_malloced']); ?>
+          </div>
+          Used
+        </li>
+        <li class="list-group-item">
+          <div class="pull-right">
+            <?php echo Library_Data_Analysis::byteResize($stats['limit_maxbytes']); ?>
+          </div>
+          Total
+        </li>
+        <li class="list-group-item">
+          <div class="pull-right">
+            <?php echo Library_Data_Analysis::byteResize($slabs['total_wasted']); ?>
+          </div>
+          Wasted
+        </li>
+        <li class="list-group-item">
+          <div class="pull-right">
+            <?php echo sprintf('%.1f', $stats['bytes'] / $stats['limit_maxbytes'] * 100, 1); ?>%
+          </div>
+          Percent
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Get</h3>
+      </div>
+      <img class="img-responsive" src="http://chart.apis.google.com/chart?cht=p&amp;chd=t:<?php echo $stats['get_hits_percent']; ?>,<?php echo $stats['get_misses_percent']; ?>&amp;chs=281x225&amp;chdl=Hit%20<?php echo $stats['get_hits_percent']; ?>|Miss%20<?php echo $stats['get_misses_percent']; ?>&amp;chf=bg,s,ebebeb&amp;chco=2a707b|b5463f&amp;chdlp=b" alt="Cache Hit &amp; Miss Rate" />
       <ul class="list-group">
         <li class="list-group-item">
           <div class="pull-right">
@@ -28,7 +74,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Set Stats</h3>
+        <h3 class="panel-title">Set</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -44,7 +90,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Delete Stats</h3>
+        <h3 class="panel-title">Delete</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -70,7 +116,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Cas Stats</h3>
+        <h3 class="panel-title">Cas</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -92,7 +138,7 @@
             <?php echo (isset($stats['cas_badval'])) ? Library_Data_Analysis::hitResize($stats['cas_badval']) : 'N/A on ' . $stats['version']; ?>
             [<?php echo $stats['cas_badval_percent']; ?>%]
           </div>
-          Bad Value
+          <abbr title="Number of CAS reqs for which a key was found, but the CAS value did not match">Bad Value</abbr>
         </li>
         <li class="list-group-item">
           <div class="pull-right"><?php echo (isset($stats['cas_hits'])) ? $stats['cas_rate'] . ' Request/sec' : 'N/A on ' . $stats['version']; ?></div>
@@ -103,7 +149,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Increment Stats</h3>
+        <h3 class="panel-title">Increment</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -129,7 +175,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Decrement Stats</h3>
+        <h3 class="panel-title">Decrement</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -155,7 +201,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Touch Stats</h3>
+        <h3 class="panel-title">Touch</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -181,7 +227,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Flush Stats</h3>
+        <h3 class="panel-title">Flush</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
@@ -198,7 +244,7 @@
 
   <section class="col-md-6">
     <?php if ((isset($_GET['server'])) && ($_ini->server($_GET['server']))) : # Viewing a single server ?>
-        <div class="header corner padding size-3cols" style="text-align:center;margin-top:10px;">
+        <div class="well text-center">
             <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs">See this Server Slabs Stats</a>
         </div>
     <?php endif; ?>
@@ -272,7 +318,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          Eviction &amp; Reclaimed Stats
+          Eviction &amp; Reclaimed
         </h3>
       </div>
       <ul class="list-group">
@@ -488,66 +534,15 @@
   </section>
 
   <section class="col-md-3">
-    <?php
-    # Fixing issue 163, some results from stats slabs mem_requested are buggy @FIXME
-    if($slabs['total_malloced'] > $stats['limit_maxbytes']) {
-        $slabs['total_wasted'] = $stats['limit_maxbytes'] - ($slabs['total_malloced'] - $slabs['total_wasted']);
-        $slabs['total_malloced'] = $stats['limit_maxbytes'];
-    }
-
-    # Making cache size stats
-    $wasted_percent = sprintf('%.1f', $slabs['total_wasted'] / $stats['limit_maxbytes'] * 100);
-    $used_percent = sprintf('%.1f', ($slabs['total_malloced'] - $slabs['total_wasted']) / $stats['limit_maxbytes'] * 100);
-    $free_percent = sprintf('%.1f', ($stats['limit_maxbytes'] - $slabs['total_malloced']) / $stats['limit_maxbytes'] * 100);
-    ?>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Cache Size Stats</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="pull-right">
-            <?php echo Library_Data_Analysis::byteResize($slabs['total_malloced']); ?>Bytes
-          </div>
-          Used
-        </li>
-        <li class="list-group-item">
-          <div class="pull-right">
-            <?php echo Library_Data_Analysis::byteResize($stats['limit_maxbytes']); ?>Bytes
-          </div>
-          Total
-        </li>
-        <li class="list-group-item">
-          <div class="pull-right">
-            <?php echo Library_Data_Analysis::byteResize($slabs['total_wasted']); ?>Bytes
-          </div>
-          Wasted
-        </li>
-        <li class="list-group-item">
-          <div class="pull-right">
-            <?php echo sprintf('%.1f', $stats['bytes'] / $stats['limit_maxbytes'] * 100, 1); ?>%
-          </div>
-          Percent
-        </li>
-      </ul>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Cache Size Graphic</h3>
-      </div>
-        <img src="http://chart.apis.google.com/chart?chf=bg,s,ebebeb&amp;chs=281x225&amp;cht=p&amp;chco=b5463f|2a707b|ffffff&amp;chd=t:<?php echo $wasted_percent; ?>,<?php echo $used_percent; ?>,<?php echo $free_percent; ?>&amp;chdl=Wasted%20<?php echo $wasted_percent; ?>%|Used%20<?php echo $used_percent; ?>%|Free%20<?php echo $free_percent; ?>%&amp;chdlp=b" alt="Cache Size by GoogleCharts" width="281" height="225"/>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Hash Table Stats</h3>
+        <h3 class="panel-title">Hash Table</h3>
       </div>
       <ul class="list-group">
         <?php if ((isset($_GET['server'])) && ($_ini->server($_GET['server']))) : # Viewing a single server ?>
         <li class="list-group-item">
           <div class="pull-right">
-            <?php echo (isset($stats['hash_power_level'])) ? Library_Data_Analysis::byteResize($stats['hash_power_level']) . 'Bytes' : 'N/A on ' . $stats['version']; ?>
+            <?php echo (isset($stats['hash_power_level'])) ? Library_Data_Analysis::byteResize($stats['hash_power_level']) : 'N/A on ' . $stats['version']; ?>
           </div>
           <abbr title="Current size multiplier for hash table">Power Level</abbr>
         </li>
@@ -560,7 +555,7 @@
         <?php endif; ?>
         <li class="list-group-item">
           <div class="pull-right">
-            <?php echo (isset($stats['hash_bytes'])) ? Library_Data_Analysis::byteResize($stats['hash_bytes']) . 'Bytes' : 'N/A on ' . $stats['version']; ?>
+            <?php echo (isset($stats['hash_bytes'])) ? Library_Data_Analysis::byteResize($stats['hash_bytes']) : 'N/A on ' . $stats['version']; ?>
           </div>
           Size
         </li>
@@ -585,25 +580,18 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Hit &amp; Miss Rate Graphic</h3>
-      </div>
-        <img src="http://chart.apis.google.com/chart?cht=bvg&amp;chd=t:<?php echo $stats['get_hits_percent']; ?>,<?php echo $stats['get_misses_percent']; ?>&amp;chs=280x145&amp;chl=Hit|Miss&amp;chf=bg,s,ebebeb&amp;chco=2a707b|b5463f&amp;chxt=y&amp;chbh=a&amp;chm=N,000000,0,-1,11" alt="Cache Hit &amp; Miss Rate" />
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
         <h3 class="panel-title">Network Stats</h3>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
           <div class="pull-right">
-            <?php echo Library_Data_Analysis::byteResize($stats['bytes_read']); ?>Bytes
+            <?php echo Library_Data_Analysis::byteResize($stats['bytes_read']); ?>
           </div>
           <abbr title="Total number of bytes read by this server">Bytes Read</abbr>
         </li>
         <li class="list-group-item">
           <div class="pull-right">
-            <?php echo Library_Data_Analysis::byteResize($stats['bytes_written']); ?>Bytes
+            <?php echo Library_Data_Analysis::byteResize($stats['bytes_written']); ?>
           </div>
           Bytes Written
         </li>

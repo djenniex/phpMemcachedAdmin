@@ -7,10 +7,7 @@
       <pre id="container" class="well well-lg pre-scrollable" style="font-size:11px;overflow:auto;min-height:180px;max-height:500px;"></pre>
     </div>
     <div class="panel-footer">
-      <div class="col-md-6">
-        <input type="text" id="loading" class="form-control" placeholder="Waiting for server response ...">
-      </div>
-      <button class="btn btn-info" type="submit" onclick="javascript:executeClear('container')">Clear Console</button>
+      <button class="btn btn-info" type="submit" onclick="$('#container').empty();">Clear Console</button>
     </div>
   </div>
 </section>
@@ -82,7 +79,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" onclick="javascript:executeCommand('container');javascript:this.blur();">Execute Command</button>
+              <button type="submit" class="btn btn-default" onclick="javascript:executeCommand('#container');javascript:this.blur();">Execute Command</button>
             </div>
           </div>
         </form>
@@ -123,7 +120,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" onclick="javascript:executeTelnet('container');javascript:this.blur();">Execute Telnet Command</button>
+            <button type="submit" class="btn btn-default" onclick="javascript:executeTelnet('#container');javascript:this.blur();">Execute Telnet Command</button>
           </div>
         </div>
       </div>

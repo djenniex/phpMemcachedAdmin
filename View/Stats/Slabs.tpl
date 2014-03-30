@@ -6,9 +6,9 @@
     </div>
     <ul class="list-group">
       <li class="list-group-item">
-        <span class="badge">
+        <div class="pull-right">
           <?php echo $slabs['active_slabs']; ?>
-        </span>
+        </div>
         Slabs Used
       </li>
       <li class="list-group-item">
@@ -33,20 +33,52 @@
   </div>
 </section>
 
-<table class="table table-striped">
+<div class="btn-group" id="display">
+  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+    Display <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu"></ul>
+</div>
+
+<table class="table table-striped" id="slabs">
     <thead>
         <tr>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=slab_index">Index</a></th>
-            <th>
+            <th class="persist essential">
+              <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=slab_index">Index</a>
+            </th>
+            <th class="essential">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=chunk_size"><abbr title="The amount of space each chunk uses. One item will use one chunk of the appropriate size.">Chunk Size</abbr></a>
             </th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks" title="How many chunks have been allocated to items.">Used Chunks</a></th>
-            <th>% of Used Chunks</th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks" title="Total number of chunks allocated to the slab class.">Total Chunks</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages" title="Total number of pages allocated to the slab class.">Total Pages</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_malloced" title="Total amount of memory allocated to slab pages.">Used</a></th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_wasted">Wasted</a></th>
-            <th>Hits</th>
+            <th class="essential">
+              <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks"><abbr title="How many chunks have been allocated to items.">Used Chunks</abbr></a>
+            </th>
+            <th class="essential">% of Used Chunks</th>
+            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks"><abbr title="Total number of chunks allocated to the slab class.">Total Chunks</abbr></a></th>
+            <th class="essential"><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages"><abbr title="Total number of pages allocated to the slab class.">Total Pages</abbr></a></th>
+            <th class="essential">
+              <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_malloced"><abbr title="Total amount of memory allocated to slab pages.">Used</abbr></a>
+            </th>
+            <th class="essential">
+              <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_wasted">Wasted</a>
+            </th>
+            <th class="optional">
+              Hits (Req/sec)
+            </th>
+            <th>
+              <abbr title="Total number of get requests serviced by this class">Get Hits</abbr>
+            </th>
+            <th>
+              Set Hits
+            </th>
+            <th>
+              Delete Hits
+            </th>
+            <th>
+              Incr Hits
+            </th>
+            <th>
+              Decr Hits
+            </th>
             <th>
               <abbr title="Number of times an entry was stored using memory from an expired entry.">Reclaimed</abbr>
             </th>
@@ -59,7 +91,7 @@
             </th>
             <!-- <th>Out of Memory</th>
             <th>Tail Repairs</th> -->
-            <th></th>
+            <th class="persist essential"></th>
         </tr>
     </thead>
     <tbody>
@@ -81,17 +113,22 @@ foreach ($slabs as $id => $slab) :
                 <?php echo Library_Data_Analysis::valueResize($slab['used_chunks'] / $slab['total_chunks'] * 100); ?> %
             </td>
             <td><?php echo Library_Data_Analysis::hitResize($slab['total_chunks']); ?></td>
-            <td><?php echo $slab['total_pages']; ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['total_pages']); ?></td>
             <td><?php echo Library_Data_Analysis::byteResize($slab['mem_malloced']); ?></td>
             <td><?php echo Library_Data_Analysis::byteResize($slab['mem_wasted']); ?></td>
-            <td><?php echo ($slab['request_rate'] > 999) ? Library_Data_Analysis::hitResize($slab['request_rate']) : $slab['request_rate']; ?> Request/sec</td>
+            <td><?php echo ($slab['request_rate'] > 999) ? Library_Data_Analysis::hitResize($slab['request_rate']) : $slab['request_rate']; ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['get_hits']); ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['cmd_set']); ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['delete_hits']); ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['incr_hits']); ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['decr_hits']); ?></td>
             <?php if ($slab['used_chunks'] > 0) : ?>
             <td><?php echo Library_Data_Analysis::valueResize($slab['items:reclaimed']); ?></td>
-            <td><?php echo (isset($slab['items:evicted'])) ? $slab['items:evicted'] : 'N/A'; ?></td>
+            <td><?php echo (isset($slab['items:evicted'])) ? Library_Data_Analysis::valueResize($slab['items:evicted']) : 'N/A'; ?></td>
             <td><?php echo Library_Data_Analysis::valueResize($slab['items:expired_unfetched']); ?></td>
             <td><?php echo Library_Data_Analysis::valueResize($slab['items:evicted_unfetched']); ?></td>
             <td><?php echo Library_Data_Analysis::uptime($slab['items:evicted_time']); ?></td>
-            <td><?php echo $slab['items:outofmemory']; ?></td>
+            <td><?php echo Library_Data_Analysis::valueResize($slab['items:outofmemory']); ?></td>
             <!-- <td><?php echo $slab['items:outofmemory']; ?></td>
             <td><?php echo $slab['items:tailrepairs']; ?></td> -->
             <td><a href="?server=<?php echo $_GET['server']; ?>&amp;show=items&amp;slab=<?php echo $id; ?>">Items</a></td>

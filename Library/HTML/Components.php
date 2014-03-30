@@ -99,7 +99,7 @@ class Library_HTML_Components
      */
     public static function serverResponse($hostname, $port, $data)
     {
-        $header = '<span class="red">Server ' . $hostname . ':' . $port . "</span>\r\n";
+        $header = '<span class="label label-danger">Server ' . $hostname . ':' . $port . "</span>\r\n";
         $return = '';
         if(is_array($data))
         {

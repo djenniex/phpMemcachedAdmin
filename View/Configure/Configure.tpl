@@ -151,19 +151,24 @@
         <form class="form-horizontal" role="form" method="post" action="configure.php?request_write=servers">
           <div id="server_form">
             <?php
-                # Initializing variables
-                $server_id = 0;
-                $cluster_id = 0;
+              # Initializing variables
+              $server_id = 0;
+              $cluster_id = 0;
 
-                # Looking into each cluster
-                foreach ($_ini->get('servers') as $cluster => $servers) {
-                    $cluster_id++;
+              # Looking into each cluster
+              foreach ($_ini->get('servers') as $cluster => $servers) {
+                $cluster_id++;
             ?>
             <div id="cluster_<?php echo $cluster_id; ?>">
-              <strong>Cluster <input type="text" class="form-control" name="cluster[<?php echo $cluster_id; ?>]" value="<?php echo $cluster; ?>"/></strong>
+              <div class="form-group">
+                <label for="cluster[<?php echo $cluster_id; ?>]" class="col-sm-2 control-label">Cluster</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="cluster[<?php echo $cluster_id; ?>]" value="<?php echo $cluster; ?>"/>
+                </div>
+              </div>
               <div class="row">
-                  <div class="col-md-4">Name (Optionnal)</div>
-                  <div class="col-md-4">IP/Hostname</div>
+                  <div class="col-md-4">Name (Optional)</div>
+                  <div class="col-md-3">IP/Hostname</div>
                   <div class="col-md-2">Port</div>
               </div>
               <?php
@@ -171,29 +176,33 @@
                   $server_id++;
               ?>
               <div class="row" id="server_<?php echo $server_id; ?>">
-                <div class="col-xs-4">
+                <div class="col-md-4">
                   <input type="text" class="form-control" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][name]" value="<?php echo $name; ?>" id="name_<?php echo $server_id; ?>" onchange="nameOnChange(<?php echo $server_id; ?>)"/>
                 </div>
-                <div class="col-xs-4">
-                <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][hostname]" value="<?php echo $server['hostname']; ?>" id="host_<?php echo $server_id; ?>"
+                <div class="col-md-3">
+                  <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][hostname]" value="<?php echo $server['hostname']; ?>" id="host_<?php echo $server_id; ?>"
                   <?php # Custom name
                   if ($name == $server['hostname'] . ':' . $server['port']) { ?>
                     onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)"
-                  <?php } ?>onfocus="hostOnFocus(this)" onblur="hostOnBlur(this)"/>
+                  <?php } ?>onfocus="hostOnFocus($(this));" onblur="hostOnBlur($(this));"/>
                 </div>
-                <div class="col-xs-2">
-                <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][port]" value="<?php echo $server['port']; ?>" id="port_<?php echo $server_id; ?>"
+                <div class="col-md-2">
+                  <input type="text" class="form-control col-xs-4" name="server[<?php echo $cluster_id; ?>][<?php echo $server_id; ?>][port]" value="<?php echo $server['port']; ?>" id="port_<?php echo $server_id; ?>"
                   <?php # Custom name
                   if ($name == $server['hostname'] . ':' . $server['port']) { ?>
                     onchange="hostOrPortOnChange(<?php echo $server_id; ?>)" onKeyUp="hostOrPortOnChange(<?php echo $server_id; ?>)"
-                  <?php } ?> onfocus="portOnFocus(this)" onblur="portOnBlur(this)"/>
+                  <?php } ?> onfocus="portOnFocus($(this));" onblur="portOnBlur($(this));"/>
                 </div>
-                <a class="btn btn-danger" href="#" onclick="deleteServerOrCluster('server_<?php echo $server_id; ?>')">Delete</a>
+                <div class="form-group">
+                  <a class="btn btn-danger btn-sm" href="#" onclick="$('#server_<?php echo $server_id; ?>').remove();">Delete</a>
+                </div>
               </div>
               <?php endforeach; ?>
-              <div class="row" id="cluster_<?php echo $cluster_id; ?>_commands">
-                <a href="javascript:addServer(<?php echo $cluster_id; ?>)" class="btn btn-default" role="button">Add New Server to Cluster</a>
-                <a class="btn btn-danger" role="button" href="#" onclick="deleteServerOrCluster('cluster_<?php echo $cluster_id; ?>')">Delete Cluster</a>
+              <div class="form-group" id="cluster_<?php echo $cluster_id; ?>_commands">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <a href="javascript:addServer(<?php echo $cluster_id; ?>)" class="btn btn-default" role="button">Add New Server to Cluster</a>
+                  <a class="btn btn-danger" role="button" href="#" onclick="$('#cluster_<?php echo $cluster_id; ?>').remove();">Delete Cluster</a>
+                </div>
               </div>
             </div>
             <?php } ?>

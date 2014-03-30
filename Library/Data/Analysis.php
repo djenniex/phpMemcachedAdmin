@@ -270,17 +270,17 @@ class Library_Data_Analysis
      */
     public static function uptime($uptime)
     {
-        if($uptime > 0)
-        {
+        if ($uptime > 0) {
             $days = floor($uptime/60/60/24);
             $hours = $uptime/60/60%24;
             $mins = $uptime/60%60;
-            if(($days + $hours + $mins) == 0)
-            {
+            if (($days + $hours + $mins) == 0) {
                 return ' less than 1 min';
             }
+
             return $days . ' days ' . $hours . ' hrs ' . $mins . ' min';
         }
+
         return ' - ';
     }
 
@@ -288,23 +288,21 @@ class Library_Data_Analysis
      * Resize a byte value
      *
      * @param Integer $value Value to resize
-     *
      * @return String
      */
     public static function byteResize($value)
     {
         # Unit list
-        $units = array('', 'K', 'M', 'G', 'T');
+        $units = array('', 'KB', 'MB', 'GB', 'TB');
 
         # Resizing
-        foreach($units as $unit)
-        {
-            if($value < 1024)
-            {
+        foreach ($units as $unit) {
+            if ($value < 1024) {
                 break;
             }
             $value /= 1024;
         }
+
         return sprintf('%.1f %s', $value, $unit);
     }
 
@@ -321,14 +319,14 @@ class Library_Data_Analysis
         $units = array('', 'K', 'M', 'B', 'T');
 
         # Resizing
-        foreach($units as $unit)
-        {
-            if($value < 1000)
-            {
+        foreach ($units as $unit) {
+            if ($value < 1000) {
                 break;
             }
+
             $value /= 1000;
         }
+
         return sprintf('%.1f%s', $value, $unit);
     }
 
@@ -345,14 +343,14 @@ class Library_Data_Analysis
         $units = array('', 'K', 'M', 'G', 'T');
 
         # Resizing
-        foreach($units as $unit)
-        {
-            if($value < 10000000)
-            {
+        foreach($units as $unit) {
+            if($value < 10000000) {
                 break;
             }
+
             $value /= 1000;
         }
+
         return sprintf('%.0f%s', $value, $unit);
     }
 }

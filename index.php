@@ -109,7 +109,11 @@ switch($request)
                 && $_GET['sort'] != 'slab_index'
             ) {
               uasort($slabs, function($a, $b) {
-                return ($a[$_GET['sort']] > $b[$_GET['sort']]) ? -1 : 1;
+                if (isset($a[$_GET['sort']])
+                  && isset($b[$_GET['sort']])
+                ) {
+                  return ($a[$_GET['sort']] > $b[$_GET['sort']]) ? -1 : 1;
+                }
               });
             }
             include 'View/Stats/Slabs.tpl';

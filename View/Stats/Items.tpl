@@ -4,16 +4,13 @@
       <h3 class="panel-title">Console</h3>
     </div>
     <div class="panel-body">
-      <pre id="container" class="well well-lg pre-scrollable" style="font-size:11px;overflow:auto;min-height:80px;max-height:196px;">
+      <pre id="console" class="well well-lg pre-scrollable" style="font-size:11px;overflow:auto;min-height:80px;max-height:196px;">
         Click on an item's key below to see it's content here
       </pre>
     </div>
     <div class="panel-footer">
-      <div class="col-md-6">
-        <input type="text" id="loading" class="form-control" placeholder="Waiting for server response ...">
-      </div>
-      <button class="btn btn-default" type="submit" onclick="javascript:executeClear('container')">Clear Console</button>
-      <button class="btn btn-default" id="hide" type="submit" onclick="javascript:executeHideShow('console', 'hide');javascript:this.blur();">Hide Console</button>
+      <button class="btn btn-default" type="submit" onclick="$('#console').empty();">Clear Console</button>
+      <button class="btn btn-default" id="hide" type="submit" onclick="$('#console').toggle();">Show/Hide Console</button>
     </div>
   </div>
 </section>
@@ -26,34 +23,30 @@
 </section>
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Key</th>
-            <th>Size</th>
-            <th>Expiration</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($items as $key => $data): ?>
-        <tr>
-            <td>
-                <a class="green item" style="" onclick="javascript:executeHideShow('console', 'hide', true);javascript:executeCommand('container', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=get&amp;request_server=<?php echo $_GET['server']; ?>');"><?php echo ((strlen($key) > 70) ? substr($key, 0, 70) . '[..]' : $key); ?></a>
-            </td>
-            <td><?php echo Library_Data_Analysis::byteResize($data[0]); ?></td>
-            <td>
-                <?php
-                    if ($data[1] == $infinite) :
-                      echo '&#8734;';
-                    else :
-                        echo Library_Data_Analysis::uptime($data[1] - time());
-                    endif;
-                ?>
-            </td>
-            <td>
-                <a onclick="javascript:executeCommand('console', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=delete&amp;request_server=<?php echo $_GET['server']; ?>'); javascript:location.reload();">Delete Key</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Size</th>
+      <th>Expiration</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($items as $key => $data): ?>
+    <tr>
+      <td>
+        <a class="green item" style="" onclick="javascript:executeCommand('#console', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=get&amp;request_server=<?php echo $_GET['server']; ?>');"><?php echo ((strlen($key) > 70) ? substr($key, 0, 70) . '[..]' : $key); ?></a>
+      </td>
+      <td>
+        <?php echo Library_Data_Analysis::byteResize($data[0]); ?>
+      </td>
+      <td>
+        <?php echo $data[1] == $infinite ? '&#8734;' : Library_Data_Analysis::uptime($data[1] - time()); ?>
+      </td>
+      <td>
+        <a onclick="javascript:executeCommand('#console', 'request_key=<?php echo urlencode($key); ?>&amp;request_api=<?php echo $_ini->get('get_api'); ?>&amp;request_command=delete&amp;request_server=<?php echo $_GET['server']; ?>'); javascript:location.reload();">Delete Key</a>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
 </table>
