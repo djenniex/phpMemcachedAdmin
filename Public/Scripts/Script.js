@@ -1,27 +1,87 @@
 $(function(){ // on DOM ready
-   $("#slabs").table({
-      idprefix: "co-",
-      persist: "persist",
-      checkContainer: "#display"
-   });
-});
+  // $("#slabs").responsiveTable({
+  //   idprefix: "co-",
+  //   persist: "persist",
+  //   checkContainer: "#display"
+  // });
 
-function changeServer(obj) {
-	if (obj.options[obj.selectedIndex].value != '') {
-		window.location = 'index.php?server='
-				+ obj.options[obj.selectedIndex].value;
-	} else {
-		window.location = 'index.php';
-	}
-}
-function changeCluster(obj) {
-	if (obj.options[obj.selectedIndex].value != '') {
-		window.location = 'stats.php?cluster='
-				+ obj.options[obj.selectedIndex].value;
-	} else {
-		window.location = 'stats.php';
-	}
-}
+  $('#server_select').change(function() {
+    var server = $(this).val();
+    if (server != '') {
+      window.location = 'index.php?server=' + server;
+    } else {
+      window.location = 'index.php';
+    }
+  });
+
+  $('#cluster_select').change(function() {
+    var cluster = $(this).val();
+    if (cluster != '') {
+      window.location = 'stats.php?cluster=' + cluster;
+    } else {
+      window.location = 'stats.php';
+    }
+  });
+
+  $('#search-key').click(function(){
+    if ($('#search_key').val() != '') {
+      $.get('commands.php', {
+        request_command: 'search',
+        request_key: $('#search_key').val(),
+        request_server: $('#search_server').val()
+      })
+      .done(function(data) {
+        var object = $('#console');
+        object.append(data).scrollTop(object.height());
+      });
+    }
+  });
+
+  $('a.btn-clear-console').click(function() {
+    $('#console').empty();
+  });
+
+  $('a.btn-execute-telnet').click(function() {
+    $.get('commands.php', {
+      request_command: 'telnet',
+      request_telnet: $('#request_telnet').val(),
+      request_server: $('#request_telnet_server').val()
+    })
+    .done(function(data) {
+      var object = $('#console');
+      object.append(data).scrollTop(object.height());
+    });
+  });
+
+  $('a.btn-execute-command').click(function() {
+    if ($('#request_command').val() != '') {
+      $.get('commands.php', {
+        request_command: $('#request_command').val(),
+        request_key: $('#request_key').val(),
+        request_duration: $('#request_duration').val(),
+        request_data: $('#request_data').val(),
+        request_delay: $('#request_delay').val(),
+        request_value: $('#request_value').val(),
+        request_server: $('#request_server').val(),
+        request_api: $('#request_api').val()
+      })
+      .done(function(data) {
+        var object = $('#console');
+        object.append(data).scrollTop(object.height());
+      });
+      return;
+    }
+  });
+
+  $('a.execute-command').click(function(e) {
+    e.preventDefault();
+    $.get($(this).attr('href'))
+    .done(function(data) {
+      var object = $('#console');
+      object.append(data).scrollTop(object.height());
+    });
+  });
+});
 
 function changeCommand(obj) {
 	$('#request_key').val('');
@@ -66,57 +126,6 @@ function changeCommand(obj) {
 		div_delay.hide();
 		div_value.hide();
 	}
-}
-function executeCommand(target, params) {
-  if (params != null) {
-    $.get('commands.php?' + params)
-    .done(function(data) {
-      var object = $(target);
-      object.append(data).scrollTop(object.height());
-    });
-  }
-
-  if ($('#request_command').val() != '') {
-    $.get('commands.php', {
-      request_command: $('#request_command').val(),
-      request_key: $('#request_key').val(),
-      request_duration: $('#request_duration').val(),
-      request_data: $('#request_data').val(),
-      request_delay: $('#request_delay').val(),
-      request_value: $('#request_value').val(),
-      request_server: $('#request_server').val(),
-      request_api: $('#request_api').val()
-    })
-    .done(function(data) {
-      var object = $(target);
-      object.append(data).scrollTop(object.height());
-    });
-    return;
-  }
-}
-function searchKey(target) {
-  if ($('#search_key').val() != '') {
-    $.get('commands.php', {
-      request_command: 'search',
-      request_key: $('#search_key').val(),
-      request_server: $('#search_server').val()
-    })
-    .done(function(data) {
-      var object = $(target);
-      object.append(data).scrollTop(object.height());
-    });
-  }
-}
-function executeTelnet(target) {
-  $.get('commands.php', {
-    request_command: 'telnet',
-    request_telnet: $('#request_telnet').val(),
-    request_server: $('#request_telnet_server').val()
-  })
-  .done(function(data) {
-    var object = $(target);
-    object.append(data).scrollTop(object.height());
-  });
 }
 function execute(url, target, append) {
   $.get(url, function(data) {
@@ -187,35 +196,5 @@ function hostOrPortOnChange(target) {
 	portObject = $('#port_' + target);
 	if ((nameObject.val() == '') || ((nameObject.val() != hostObject.val() + ':' + portObject.val()))) {
 		nameObject.val(hostObject.val() + ':' + portObject.val());
-	}
-}
-function ajax(url, target) {
-	if (window.XMLHttpRequest) {
-		req = new XMLHttpRequest();
-		req.onreadystatechange = function() {
-			ajaxDone(target);
-		};
-		req.open("GET", url, true);
-		req.send(null);
-	} else if (window.ActiveXObject) {
-		req = new ActiveXObject('Microsoft.XMLHTTP');
-		if (req) {
-			req.onreadystatechange = function() {
-				ajaxDone(target);
-			};
-			req.open("GET", url, true);
-			req.send();
-		}
-	}
-	setTimeout("ajax(page, 'stats')", timeout);
-}
-function ajaxDone(target) {
-	if (req.readyState == 4) {
-		if (req.status == 200 || req.status == 304) {
-			$(target).html(req.responseText);
-		} else {
-			$(target).html("Loading stats error : "
-					+ req.statusText);
-		}
 	}
 }

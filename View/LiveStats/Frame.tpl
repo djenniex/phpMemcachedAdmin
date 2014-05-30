@@ -1,7 +1,20 @@
 <script type="text/javascript">
-    var timeout = <?php echo $refresh_rate * 1000; ?>;
-    var page = 'stats.php?request_command=live_stats&cluster=<?php echo $cluster; ?>';
-    setTimeout("ajax(page,'stats')", <?php echo (5 + $refresh_rate - $_ini->get('refresh_rate')) * 1000; ?>);
+  // var interval = <?php echo (5 + $refresh_rate - $_ini->get('refresh_rate')) * 1000; ?>;
+  // setInterval("liveStats('<?php echo $cluster; ?>', interval)", interval);
+  setInterval(function() {
+    $.ajax({
+      type: 'GET',
+      url: 'stats.php',
+      cache: false,
+      data: {request_command: 'live_stats', cluster: '<?php echo $cluster; ?>'},
+      success: function (msg) {
+        $('#stats').html(msg);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        $('#stats').html('Loading stats error : ' + xhr.responseText);
+      }
+    });
+  }, <?php echo (5 + $refresh_rate - $_ini->get('refresh_rate')) * 1000; ?>);
 </script>
 
 <div class="panel panel-default">
@@ -21,7 +34,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Cluster</label>
         <div class="col-sm-6">
-          <?php echo Library_HTML_Components::clusterSelect('cluster_select', (isset($_GET['cluster'])) ? $_GET['cluster'] : '', 'live form-control', 'onchange="changeCluster(this);"'); ?>
+          <?php echo Library_HTML_Components::clusterSelect('cluster_select', (isset($_GET['cluster'])) ? $_GET['cluster'] : '', 'live form-control'); ?>
         </div>
       </div>
       </form>

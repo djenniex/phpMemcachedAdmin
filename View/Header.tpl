@@ -8,6 +8,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="Public/Styles/rwd-table.min.css" rel="stylesheet">
     <style>
 html {
   position: relative;
@@ -39,9 +40,9 @@ body {
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar"><a href="stats.php">See Live Stats</a></span>
+          <span class="icon-bar"><a href="commands.php">Execute Commands on Servers</a></span>
+          <span class="icon-bar"><a href="configure.php">Edit Configuration</a></span>
         </button>
         <a class="navbar-brand" href="#">phpMemcachedAdmin <sup><?php echo CURRENT_VERSION; ?></sup></a>
       </div>
@@ -57,7 +58,7 @@ body {
           <div class="form-group">
             <?php
               # Server HTML select
-              echo Library_HTML_Components::serverSelect('server_select', (isset($_GET['server'])) ? $_GET['server'] : '', 'form-control', 'onchange="changeServer(this)"');
+              echo Library_HTML_Components::serverSelect('server_select', (isset($_GET['server'])) ? $_GET['server'] : '', 'form-control');
             ?>
           </div>
         </form>

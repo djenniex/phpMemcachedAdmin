@@ -90,8 +90,7 @@ switch($request)
         }
 
         # Slabs are well formed
-        if($slabs !== false)
-        {
+        if ($slabs !== false) {
             # Analysis
             $slabs = Library_Data_Analysis::slabs($slabs);
             $sort_keys = array(

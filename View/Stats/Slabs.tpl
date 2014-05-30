@@ -33,65 +33,66 @@
   </div>
 </section>
 
-<div class="btn-group" id="display">
-  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-    Display <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu"></ul>
-</div>
-
-<table class="table table-striped" id="slabs">
+<div class="table-responsive" data-pattern="priority-columns">
+  <table cellspacing="0" id="slabs" class="table table-small-font table-bordered table-striped">
     <thead>
         <tr>
             <th class="persist essential">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=slab_index">Index</a>
             </th>
-            <th class="essential">
+            <th class="essential" data-priority="1">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=chunk_size"><abbr title="The amount of space each chunk uses. One item will use one chunk of the appropriate size.">Chunk Size</abbr></a>
             </th>
-            <th class="essential">
+            <th class="essential" data-priority="1">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=used_chunks"><abbr title="How many chunks have been allocated to items.">Used Chunks</abbr></a>
             </th>
-            <th class="essential">% of Used Chunks</th>
-            <th><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks"><abbr title="Total number of chunks allocated to the slab class.">Total Chunks</abbr></a></th>
+            <th class="essential" data-priority="1">% of Used Chunks</th>
+            <th data-priority="3"><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_chunks"><abbr title="Total number of chunks allocated to the slab class.">Total Chunks</abbr></a></th>
             <th class="essential"><a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=total_pages"><abbr title="Total number of pages allocated to the slab class.">Total Pages</abbr></a></th>
-            <th class="essential">
+            <th class="essential" data-priority="1">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_malloced"><abbr title="Total amount of memory allocated to slab pages.">Used</abbr></a>
             </th>
-            <th class="essential">
+            <th class="essential" data-priority="1">
               <a href="?server=<?php echo $_GET['server']; ?>&amp;show=slabs&amp;sort=mem_wasted">Wasted</a>
             </th>
-            <th class="optional">
+            <th class="optional" data-priority="2">
               Hits (Req/sec)
             </th>
-            <th>
+            <th data-priority="3">
               <abbr title="Total number of get requests serviced by this class">Get Hits</abbr>
             </th>
-            <th>
+            <th data-priority="3">
               Set Hits
             </th>
-            <th>
+            <th data-priority="3">
               Delete Hits
             </th>
-            <th>
+            <th data-priority="3">
               Incr Hits
             </th>
-            <th>
+            <th data-priority="3">
               Decr Hits
             </th>
-            <th>
+            <th data-priority="3">
               <abbr title="Number of times an entry was stored using memory from an expired entry.">Reclaimed</abbr>
             </th>
-            <th><abbr title="Number of times an item had to be evicted from the LRU before it expired">Evicted</abbr></th>
-            <th><abbr title="Number of expired items reclaimed from the LRU which were never touched after being set.">Expired Unfetched</abbr></th>
-            <th><abbr title="Number of valid items evicted from the LRU which were never touched after being set.">Evicted Unfetched</abbr></th>
-            <th>Evicted Last</th>
-            <th>
+            <th data-priority="3">
+              <abbr title="Number of times an item had to be evicted from the LRU before it expired">Evicted</abbr>
+            </th>
+            <th data-priority="3">
+              <abbr title="Number of expired items reclaimed from the LRU which were never touched after being set.">Expired Unfetched</abbr>
+            </th>
+            <th data-priority="3">
+              <abbr title="Number of valid items evicted from the LRU which were never touched after being set.">Evicted Unfetched</abbr>
+            </th>
+            <th data-priority="3">
+              Evicted Last
+            </th>
+            <th data-priority="3">
               <abbr title="Number of times the underlying slab class was unable to store a new item. This means you are running with -M or an eviction failed.">Out of Memory</abbr>
             </th>
             <!-- <th>Out of Memory</th>
             <th>Tail Repairs</th> -->
-            <th class="persist essential"></th>
         </tr>
     </thead>
     <tbody>
@@ -104,7 +105,9 @@ foreach ($slabs as $id => $slab) :
     if (is_numeric($id)) :
 ?>
         <tr>
-            <td>Slab <?php echo $id; ?></td>
+            <td>
+              <a href="?server=<?php echo $_GET['server']; ?>&amp;show=items&amp;slab=<?php echo $id; ?>">Slab <?php echo $id; ?></a>
+            </td>
             <td><?php echo Library_Data_Analysis::byteResize($slab['chunk_size']); ?></td>
             <td>
                 <?php echo Library_Data_Analysis::hitResize($slab['used_chunks']); ?>
@@ -131,7 +134,6 @@ foreach ($slabs as $id => $slab) :
             <td><?php echo Library_Data_Analysis::valueResize($slab['items:outofmemory']); ?></td>
             <!-- <td><?php echo $slab['items:outofmemory']; ?></td>
             <td><?php echo $slab['items:tailrepairs']; ?></td> -->
-            <td><a href="?server=<?php echo $_GET['server']; ?>&amp;show=items&amp;slab=<?php echo $id; ?>">Items</a></td>
             <?php else: ?>
             <td colspan="5">Slab is allocated but empty</td>
             <?php endif; ?>
@@ -141,4 +143,5 @@ foreach ($slabs as $id => $slab) :
 endforeach;
 ?>
     </tbody>
-</table>
+  </table>
+</div>

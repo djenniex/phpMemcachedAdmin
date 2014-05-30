@@ -468,10 +468,10 @@ class Library_Command_Server implements Library_Command_Interface
             unset($slabs[$slab]);
         }
 
-        if(is_array($items))
-        {
-            sort($items);
-        }
+        // if(is_array($items))
+        // {
+        //     sort($items);
+        // }
 
         return $items;
     }

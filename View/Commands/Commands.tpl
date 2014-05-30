@@ -4,10 +4,10 @@
       <h3 class="panel-title">Console</h3>
     </div>
     <div class="panel-body">
-      <pre id="container" class="well well-lg pre-scrollable" style="font-size:11px;overflow:auto;min-height:180px;max-height:500px;"></pre>
+      <pre id="console" class="well well-lg pre-scrollable console" style="font-size:11px;overflow:auto;min-height:180px;max-height:500px;"></pre>
     </div>
     <div class="panel-footer">
-      <button class="btn btn-info" type="submit" onclick="$('#container').empty();">Clear Console</button>
+      <a class="btn btn-info btn-clear-console">Clear Console</a>
     </div>
   </div>
 </section>
@@ -79,7 +79,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" onclick="javascript:executeCommand('#container');javascript:this.blur();">Execute Command</button>
+              <a type="submit" class="btn btn-default btn-execute-command">Execute Command</a>
             </div>
           </div>
         </form>
@@ -120,7 +120,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" onclick="javascript:executeTelnet('#container');javascript:this.blur();">Execute Telnet Command</button>
+            <a type="submit" class="btn btn-default btn-execute-telnet">Execute Telnet Command</a>
           </div>
         </div>
       </div>
@@ -155,7 +155,7 @@
       </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" onclick="javascript:searchKey('container');javascript:this.blur();">Search Key</button>
+            <button type="submit" id="search-key" class="btn btn-default">Search Key</button>
           </div>
         </div>
       </div>
